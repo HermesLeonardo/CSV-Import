@@ -74,7 +74,4 @@ export const initializePassenger = () => {
       tableName: "passengers", // Nome da tabela no banco de dados
     }
   );
-  
 };
-
-
