@@ -42,15 +42,21 @@ export const createPassenger = async (req: Request, res: Response): Promise<void
 export const getPassengers = async (req: Request, res: Response): Promise<void> => {
   try {
     const passengers = await Passenger.findAll();
-    res.status(200).send({
+    if (!passengers || passengers.length === 0) {
+      res.status(404).json({ message: "Nenhum passageiro encontrado." });
+      return;
+    }
+    res.status(200).json({
       message: "Passageiros recuperados com sucesso!",
       data: passengers,
     });
   } catch (error) {
     console.error("Erro ao listar passageiros:", error);
-    res.status(500).send("Erro ao listar passageiros.");
+    res.status(500).json({ message: "Erro ao listar passageiros." });
   }
 };
+
+
 
 // Função para buscar um passageiro por ID
 export const getPassengerById = async (req: Request, res: Response): Promise<void> => {

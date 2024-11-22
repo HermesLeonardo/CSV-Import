@@ -32,7 +32,7 @@ app.use("/API", csvimportroutes);
       console.log(`Servidor rodando na porta ${PORT}`);
     });
   } catch (error) {
-    console.error("Erro ao conectar ao banco de dados", error);
+    console.log("Erro ao conectar ao banco de dados", error);
   }
 })();
 

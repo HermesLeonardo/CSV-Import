@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "target": "ESNext",
-    "allowJs": true, // Permite compilar arquivos JavaScript
-    "outDir": "./dist",
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist", // Gera os arquivos compilados na pasta dist
+    "rootDir": "./src"  // Define a pasta raiz para os arquivos TypeScript
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"], // Inclui todos os arquivos dentro de src
+  "exclude": ["node_modules"] // Exclui a pasta node_modules
 }

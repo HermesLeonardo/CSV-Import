@@ -1,7 +1,7 @@
 {
   "name": "sonarCsvProject",
   "version": "1.0.0",
-  "type": "module",
+  "type": "CommonJS",
   "main": "app.js",
   "scripts": {
     "test": "jest",

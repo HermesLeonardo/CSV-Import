@@ -1,3 +1,5 @@
+/*
+
 module.exports = {
   presets: [
     '@babel/preset-env', // Transforma código moderno ES6+ para ES5
@@ -7,3 +9,6 @@ module.exports = {
     '@babel/plugin-transform-modules-commonjs', // Garante compatibilidade com CommonJS
   ],
 };
+
+
+*/
