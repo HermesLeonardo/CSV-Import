@@ -1,5 +1,5 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from "../shared/connection.js";
+import sequelize from "../shared/connection";
 
 export class Passenger extends Model {
   id!: number;
@@ -74,7 +74,4 @@ export const initializePassenger = () => {
       tableName: "passengers", // Nome da tabela no banco de dados
     }
   );
-  
 };
-
-

@@ -1,5 +1,5 @@
 import express from "express";
-import sequelize from "./shared/connection.js"; 
+import sequelize from "./shared/connection.js";
 import csvimportroutes from "./routes/csv-import-routes.js";
 import { initializePassenger } from "./models/passenger-model.js";
 import { Passenger } from "./models/passenger-model.js";
@@ -22,7 +22,7 @@ app.use("/passenger", csvimportroutes);
 
     initializePassenger();
 
-    await sequelize.sync({ alter: true }); 
+    await sequelize.sync({ alter: true });
 
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);

@@ -1,11 +1,19 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "target": "ES6",
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
     "outDir": "./dist",
     "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "types": [
+      "jest",
+      "node"
+    ],
+    "target": "es6",
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "skipLibCheck": true
   },
   "include": [
