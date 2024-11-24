@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowJs": true, // Permite compilar arquivos JavaScript
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
     "types": [
       "jest",
       "node"
@@ -17,9 +18,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
+    "src/**/*"
   ]
 }

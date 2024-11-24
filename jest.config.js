@@ -3,5 +3,8 @@ export default {
   testEnvironment: 'node',
   moduleFileExtensions: ['ts', 'js'],
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  testMatch: ['**/__tests__/**/*.test.ts']
+  testMatch: ['**/__test__/**/*.test.ts'],
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1', // Permite resolver arquivos .js corretamente
+  },
 };
