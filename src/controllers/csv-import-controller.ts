@@ -56,8 +56,6 @@ export const getPassengers = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-
-
 // Função para buscar um passageiro por ID
 export const getPassengerById = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
@@ -145,50 +143,63 @@ export const deletePassenger = async (req: Request, res: Response): Promise<void
 export const importCsv = async (req: Request, res: Response): Promise<void> => {
   const filePath = "L:\\Drivers\\titanic.csv"; // Altere o caminho conforme necessário
 
-  const passengers: {
-    PassengerId: number;
-    Survived: number;
-    Pclass: number;
-    Name: string;
-    Sex: string;
-    Age: number | null;
-    SibSp: number;
-    Parch: number;
-    Ticket: string;
-    Fare: number;
-    Cabin: string | null;
-    Embarked: string;
-  }[] = [];
+  try {
+    // Verifica se já existem dados na tabela
+    const existingData = await Passenger.count();
 
-  fs.createReadStream(filePath)
-    .pipe(csvParser())
-    .on("data", (data) => {
-      passengers.push({
-        PassengerId: parseInt(data.PassengerId),
-        Survived: parseInt(data.Survived),
-        Pclass: parseInt(data.Pclass),
-        Name: data.Name,
-        Sex: data.Sex,
-        Age: data.Age ? parseInt(data.Age) : null,
-        SibSp: parseInt(data.SibSp),
-        Parch: parseInt(data.Parch),
-        Ticket: data.Ticket,
-        Fare: parseFloat(data.Fare),
-        Cabin: data.Cabin || null,
-        Embarked: data.Embarked,
-      });
-    })
-    .on("end", async () => {
-      try {
-        await Passenger.bulkCreate(passengers, {
-          updateOnDuplicate: [
-            "Survived", "Pclass", "Name", "Sex", "Age", "SibSp", "Parch", "Ticket", "Fare", "Cabin", "Embarked",
-          ],
+    if (existingData > 0) {
+      res.status(200).json({ message: "Dados já existentes no banco de dados." });
+      return;
+    }
+
+    const passengers: {
+      PassengerId: number;
+      Survived: number;
+      Pclass: number;
+      Name: string;
+      Sex: string;
+      Age: number | null;
+      SibSp: number;
+      Parch: number;
+      Ticket: string;
+      Fare: number;
+      Cabin: string | null;
+      Embarked: string;
+    }[] = [];
+
+    fs.createReadStream(filePath)
+      .pipe(csvParser())
+      .on("data", (data) => {
+        passengers.push({
+          PassengerId: parseInt(data.PassengerId),
+          Survived: parseInt(data.Survived),
+          Pclass: parseInt(data.Pclass),
+          Name: data.Name,
+          Sex: data.Sex,
+          Age: data.Age ? parseInt(data.Age) : null,
+          SibSp: parseInt(data.SibSp),
+          Parch: parseInt(data.Parch),
+          Ticket: data.Ticket,
+          Fare: parseFloat(data.Fare),
+          Cabin: data.Cabin || null,
+          Embarked: data.Embarked,
         });
-        res.status(200).send("CSV importado com sucesso!");
-      } catch (error) {
-        console.error("Erro ao salvar dados no banco:", error);
-        res.status(500).send("Erro ao importar CSV.");
-      }
-    });
+      })
+      .on("end", async () => {
+        try {
+          await Passenger.bulkCreate(passengers, {
+            updateOnDuplicate: [
+              "Survived", "Pclass", "Name", "Sex", "Age", "SibSp", "Parch", "Ticket", "Fare", "Cabin", "Embarked",
+            ],
+          });
+          res.status(200).send({ message: "CSV importado com sucesso!" });
+        } catch (error) {
+          console.error("Erro ao salvar dados no banco:", error);
+          res.status(500).send({ message: "Erro ao importar CSV." });
+        }
+      });
+  } catch (error) {
+    console.error("Erro ao processar a importação:", error);
+    res.status(500).send({ message: "Erro ao processar a importação." });
+  }
 };
